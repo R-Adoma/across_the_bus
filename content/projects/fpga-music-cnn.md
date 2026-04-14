@@ -4,7 +4,7 @@ date = 2026-04-12T09:00:00+01:00
 description = "Implementing a music genre classification convolutional neural network on an FPGA"
 cover = "/img/projects/fpga-music-cnn/music_cnn_cover.jpg"
 coverAlt = "Microphone Placeholder"
-displayWords = 9355
+displayWords = 2063
 tags = ["rtl", "floating-point", "notes"]
 math = true
 toc = true
@@ -148,6 +148,7 @@ I'm going to put a pin in this for now, but there is definitely room for further
 - Add the audio preprocessing directly into the overall flow rather than relying on precomputed spectrograms
 - Take the design fully through synthesis, implementation and place-and-route for the target board
 - Build a small front end around the simulation flow so the project is easier to try without digging through scripts
+
 
 
 
