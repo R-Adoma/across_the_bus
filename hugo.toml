@@ -1,4 +1,3 @@
-# Replace this with your real domain before deploying.
 baseURL = "http://localhost:1313/"
 languageCode = "en-us"
 title = "Across the Bus"
@@ -29,7 +28,7 @@ author = "Ronnie Adoma"
 heroName = "Ronnie Adoma"
 heroSubtitle = "Building systems, writing notes, and shipping small experiments."
 heroIntro = "A small corner of the internet for projects, experiments, and in-progress technical rabbit holes."
-emailUrl = "#"
+emailUrl = "mailto:ronniekadoma@gmail.com"
 githubUrl = "https://github.com/R-Adoma"
 contentTypeName = "posts"
 showMenuItems = 2
