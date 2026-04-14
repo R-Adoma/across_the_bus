@@ -1,7 +1,7 @@
 <article class="content-card">
   <a class="content-card__media" href="{{ .RelPermalink }}">
     {{ with .Params.cover }}
-      <img src="{{ . | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">
+      <img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">
     {{ else }}
       <div class="content-card__image-fallback">Placeholder image</div>
     {{ end }}
@@ -21,3 +21,4 @@
     <p>{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
   </div>
 </article>
+

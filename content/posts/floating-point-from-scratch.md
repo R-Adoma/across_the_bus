@@ -46,7 +46,7 @@ The first thing I like to do is translate the bit layout into a small table. It 
 | Internal guard bits | 3-5 bits | Helpful for alignment and rounding |
 
 <figure>
-  <img src="/img/posts/floating-point.svg" alt="Placeholder floating-point datapath sketch">
+  <img src="../../img/posts/floating-point.svg" alt="Placeholder floating-point datapath sketch">
   <figcaption>A dummy front-page figure for the report. Later this could become a real datapath diagram or a screenshot from simulation.</figcaption>
 </figure>
 
@@ -100,7 +100,7 @@ That line looks harmless, but it creates several design questions immediately:
 - how do we stop a "simple" shifter from dominating the stage timing
 
 <figure>
-  <img src="/img/posts/waveform-lab.svg" alt="Placeholder waveform image">
+  <img src="../../img/posts/waveform-lab.svg" alt="Placeholder waveform image">
   <figcaption>Another placeholder figure. This one stands in for the sort of waveform snapshot that usually explains more than three paragraphs of prose.</figcaption>
 </figure>
 
@@ -173,7 +173,7 @@ Even as dummy content, I want the report to feel like something you could build 
 5. compare intermediate pipeline stages, not just final outputs
 
 <figure>
-  <img src="/img/posts/cloud-fpga.svg" alt="Placeholder FPGA board image">
+  <img src="../../img/posts/cloud-fpga.svg" alt="Placeholder FPGA board image">
   <figcaption>This placeholder image stands in for board bring-up notes, measurement photos, or a "yes, it finally ran on hardware" victory screenshot.</figcaption>
 </figure>
 
@@ -199,3 +199,4 @@ For single precision, \(p = 24\) if we count the implicit leading `1`, which mea
 ## Next steps
 
 The real version of this article would eventually replace every placeholder image here with actual figures, every "could" with measured results, and every toy equation with concrete test vectors. For now, it is enough that the post behaves like a real report: long, structured, navigable, and comfortable to read.
+

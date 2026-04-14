@@ -42,7 +42,7 @@ The reason for using a mel spectrogram specifically is that it compresses the fr
 In practical terms this stage let me reduce each audio clip down to a fixed `128 x 128` single-channel input. That was much easier to handle than raw audio for both training and hardware deployment. It also meant I could keep the audio preprocessing off-chip and focus the RTL side of the project on the classifier itself.
 
 <figure>
-  <img src="\img\projects\fpga-music-cnn\mel_spectrogram.png" alt="Example mel spectrogram used as CNN input">
+  <img src="../../img/projects/fpga-music-cnn/mel_spectrogram.png" alt="Example mel spectrogram used as CNN input">
   <figcaption>Example mel spectrogram used as input to the classifier</figcaption>
 </figure>
 
@@ -56,7 +56,7 @@ So, to implement a music classification CNN on an FPGA, you need a music classif
 Most of the models freely available had parameter counts on the order of tens and hundreds of thousands, which is more than fine for any modern CPU to run, but too much for our resource-constrained PYNQ-Z2 board. This led me to do a bunch of iteration on different models until I settled on the following model with about six thousand parameters:
 
 <figure>
-  <img src="\img\projects\fpga-music-cnn\genrecnn_hw_architecture_site.svg" alt="CNN Model Architecture">
+  <img src="../../img/projects/fpga-music-cnn/genrecnn_hw_architecture_site.svg" alt="CNN Model Architecture">
   <figcaption>A figure depicting the CNN model architecture</figcaption>
 </figure>
 
@@ -69,7 +69,7 @@ Now that I had settled on the model, I began working on the meat and potatoes of
 I decided to split the project into the following modules.
 
 <figure>
-  <img src="\img\projects\fpga-music-cnn\arch_fabric.png" alt="RTL Modules">
+  <img src="../../img/projects/fpga-music-cnn/arch_fabric.png" alt="RTL Modules">
   <figcaption>RTL Module Dataflow</figcaption>
 </figure>
 
@@ -112,7 +112,7 @@ This is where the project got a lot more real. The software side looked fairly e
 At that point it was pretty clear that this was not just a small RTL bug or a weak model. The bigger issue was that the training assumptions and the deployed arithmetic were far enough apart that the model which looked good in PyTorch was not really the same model once exported into the fixed-point pipeline.
 
 <figure>
-  <img src="\img\projects\fpga-music-cnn\conf_matrix.png" alt="Confusion matrix for the RTL implementation">
+  <img src="../../img/projects/fpga-music-cnn/conf_matrix.png" alt="Confusion matrix for the RTL implementation">
   <figcaption>Confusion matrix for the RTL implementation</figcaption>
 </figure>
 
@@ -125,7 +125,7 @@ The main thing here was that generic int8 QAT was not really enough for this pro
 Once I changed the training side to follow the hardware much more closely, the behaviour started to make far more sense. The architecture itself did not change. What changed was that the model was finally being trained for the thing it was actually going to run on.
 
 <figure>
-  <img src="\img\projects\fpga-music-cnn\qat_mat.png" alt="Confusion matrix after hardware-aware quantisation-aware training">
+  <img src="../../img/projects/fpga-music-cnn/qat_mat.png" alt="Confusion matrix after hardware-aware quantisation-aware training">
   <figcaption>Confusion matrix after hardware-aware quantisation-aware training for the RTL implementation</figcaption>
 </figure>
 
@@ -148,6 +148,7 @@ I'm going to put a pin in this for now, but there is definitely room for further
 - Add the audio preprocessing directly into the overall flow rather than relying on precomputed spectrograms
 - Take the design fully through synthesis, implementation and place-and-route for the target board
 - Build a small front end around the simulation flow so the project is easier to try without digging through scripts
+
 
 
 

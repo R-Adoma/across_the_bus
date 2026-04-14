@@ -51,4 +51,5 @@ words = "words"
 
 [params.logo]
 logoText = "Across the Bus"
-logoHomeLink = "/"
+logoHomeLink = "https://r-adoma.github.io/across_the_bus/"
+

@@ -32,7 +32,7 @@
       <div class="article-main">
         {{ with .Params.cover }}
           <figure class="article-cover">
-            <img src="{{ . | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">
+            <img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">
           </figure>
         {{ end }}
 
@@ -52,3 +52,4 @@
     </div>
   </article>
 {{ end }}
+
