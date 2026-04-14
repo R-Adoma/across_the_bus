@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default `en-us` }}" data-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <script>
+      (function() {
+        try {
+          var savedTheme = localStorage.getItem("theme-preference");
+          var preferredTheme = savedTheme;
+          if (!preferredTheme && window.matchMedia("(prefers-color-scheme: light)").matches) {
+            preferredTheme = "light";
+          }
+          if (preferredTheme) {
+            document.documentElement.setAttribute("data-theme", preferredTheme);
+          }
+        } catch (error) {}
+      })();
+    </script>
+    {{ if .Params.math }}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+    {{ end }}
+    {{ $css := resources.Get "css/site.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  </head>
+  {{ $showBinaryRain := not .IsPage }}
+  <body class="{{ if .IsHome }}page-home{{ else if .IsPage }}page-single{{ else }}page-list{{ end }}">
+    {{ if $showBinaryRain }}
+      <div class="site-background" aria-hidden="true">
+        <div class="binary-rain" data-binary-rain></div>
+      </div>
+    {{ end }}
+    <div class="site-overlay" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-brand" href="{{ `/` | relURL }}">{{ .Site.Title }}</a>
+
+        <div class="site-header__controls">
+          <nav class="site-nav" aria-label="Primary navigation">
+            <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-menu" data-menu-toggle>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span class="sr-only">Toggle navigation</span>
+            </button>
+
+            <div class="site-nav__links" id="primary-menu" data-site-nav>
+              <a href="{{ printf "%s#projects" .Site.Home.RelPermalink }}">Projects</a>
+              <a href="{{ printf "%s#about" .Site.Home.RelPermalink }}">About</a>
+            </div>
+          </nav>
+
+          <button class="theme-toggle" type="button" aria-pressed="false" data-theme-toggle>
+            <span class="theme-toggle__icon" aria-hidden="true">Theme</span>
+            <span data-theme-label>Light mode</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      {{ block "main" . }}{{ end }}
+    </main>
+
+    <footer class="site-footer">
+      <p>Built with Hugo. Placeholder links stay intentionally parked for now.</p>
+    </footer>
+
+    {{ $js := resources.Get "js/site.js" | minify | fingerprint }}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+  </body>
+</html>

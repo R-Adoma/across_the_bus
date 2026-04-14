@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" fill="none">
+  <rect width="1600" height="1200" fill="#04110d"/>
+  <g opacity="0.75" filter="url(#blurA)">
+    <circle cx="310" cy="325" r="170" fill="#0c8e67"/>
+    <circle cx="1220" cy="270" r="180" fill="#147f67"/>
+    <circle cx="1080" cy="860" r="240" fill="#0c5f4b"/>
+  </g>
+  <g stroke-linecap="round">
+    <path d="M194 1066C350 920 418 785 541 701C672 612 757 554 945 404C1076 300 1181 230 1408 112" stroke="#bee6d0" stroke-opacity="0.28" stroke-width="34"/>
+    <path d="M126 950C308 780 414 708 564 610C747 490 842 433 1039 271C1144 185 1240 133 1452 82" stroke="#2dcfa0" stroke-opacity="0.3" stroke-width="26"/>
+    <path d="M109 742C241 632 359 586 478 498C620 393 731 310 902 188C1022 103 1120 84 1378 54" stroke="#90d9bf" stroke-opacity="0.22" stroke-width="16"/>
+    <path d="M993 1132C1061 1032 1173 889 1293 772C1408 660 1471 571 1522 457" stroke="#d4f8e6" stroke-opacity="0.2" stroke-width="32"/>
+    <path d="M902 1128C972 1012 1108 872 1248 756C1374 652 1454 576 1517 450" stroke="#3bf7a5" stroke-opacity="0.18" stroke-width="22"/>
+  </g>
+  <g opacity="0.45">
+    <rect x="1110" y="110" width="270" height="24" rx="12" fill="#edf8f0"/>
+    <rect x="1010" y="235" width="320" height="24" rx="12" fill="#edf8f0"/>
+    <rect x="918" y="353" width="350" height="24" rx="12" fill="#edf8f0"/>
+    <rect x="1260" y="516" width="196" height="24" rx="12" fill="#edf8f0"/>
+    <rect x="1188" y="654" width="226" height="24" rx="12" fill="#edf8f0"/>
+    <rect x="1108" y="797" width="248" height="24" rx="12" fill="#edf8f0"/>
+  </g>
+  <defs>
+    <filter id="blurA" x="-60" y="-100" width="1580" height="1380" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="90"/>
+    </filter>
+  </defs>
+</svg>

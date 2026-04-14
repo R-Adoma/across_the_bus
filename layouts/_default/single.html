@@ -1,0 +1,54 @@
+{{ define "main" }}
+  {{ $toc := .TableOfContents }}
+  {{ $hasToc := and .Params.toc (ne (trim $toc "\r\n\t ") "") }}
+  <article class="article-shell">
+    <header class="page-hero page-hero--article">
+      <p class="eyebrow">
+        {{ if eq .Section "posts" }}Thoughts{{ else if eq .Section "projects" }}Projects{{ else }}Page{{ end }}
+      </p>
+      <div class="page-hero__titlebar">
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.repoUrl }}
+          {{ partial "github-link.html" (dict "href" . "label" ($.Params.repoLabel | default "Project repository") "class" "social-link social-link--inline page-hero__repo-link") }}
+        {{ end }}
+      </div>
+      {{ if or (eq .Section "posts") (eq .Section "projects") }}
+        <p class="article-meta">
+          {{ if eq .Section "projects" }}
+            {{ with .Params.status }}{{ . }}<span>&middot;</span>{{ end }}
+          {{ end }}
+          {{ .Date.Format "2 January 2006" }}
+          <span>&middot;</span>
+          <span>{{ with .Params.displayWords }}{{ . }}{{ else }}{{ .WordCount }}{{ end }} words</span>
+        </p>
+      {{ end }}
+      {{ with .Description }}
+        <p>{{ . }}</p>
+      {{ end }}
+    </header>
+    <hr class="terminal-rule">
+
+    <div class="article-layout{{ if $hasToc }} article-layout--with-toc{{ end }}">
+      <div class="article-main">
+        {{ with .Params.cover }}
+          <figure class="article-cover">
+            <img src="{{ . | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">
+          </figure>
+        {{ end }}
+
+        <div class="article-content">
+          {{ .Content }}
+        </div>
+      </div>
+
+      {{ if $hasToc }}
+        <aside class="article-toc" aria-label="Table of contents">
+          <p class="article-toc__title">On this page</p>
+          <div class="article-toc__body">
+            {{ $toc }}
+          </div>
+        </aside>
+      {{ end }}
+    </div>
+  </article>
+{{ end }}

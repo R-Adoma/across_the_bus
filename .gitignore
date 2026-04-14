@@ -1,0 +1,6 @@
+public/
+resources/
+.hugo_build.lock
+hugo-server*.log
+.starter-backup/
+static/img/projects/fpga-music-cnn/genrecnn_hw_architecture.svg

@@ -1,0 +1,24 @@
+{{ define "main" }}
+  <section class="page-hero">
+    <p class="eyebrow">Archive</p>
+    <h1>{{ .Title }}</h1>
+    <p>
+      {{ if eq .Section "projects" }}
+        Browse project write-ups, build notes, and placeholder showcase pages.
+      {{ else if eq .Section "posts" }}
+        Browse the full set of notes, experiments, and placeholder write-ups.
+      {{ else }}
+        Browse the full archive.
+      {{ end }}
+    </p>
+  </section>
+
+  <section class="section">
+    <hr class="terminal-rule">
+    <div class="thought-list thought-list--archive">
+      {{ range .RegularPages.ByDate.Reverse }}
+        {{ partial "content-card.html" . }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,23 @@
+<article class="content-card">
+  <a class="content-card__media" href="{{ .RelPermalink }}">
+    {{ with .Params.cover }}
+      <img src="{{ . | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">
+    {{ else }}
+      <div class="content-card__image-fallback">Placeholder image</div>
+    {{ end }}
+  </a>
+
+  <div class="content-card__body">
+    <p class="content-card__meta">
+      {{ if eq .Section "projects" }}
+        {{ with .Params.status }}{{ . }}{{ else }}Project{{ end }}
+        <span>&middot;</span>
+      {{ end }}
+      {{ .Date.Format "2 January 2006" }}
+      <span>&middot;</span>
+      <span>{{ with .Params.displayWords }}{{ . }}{{ else }}{{ .WordCount }}{{ end }} words</span>
+    </p>
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <p>{{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}</p>
+  </div>
+</article>

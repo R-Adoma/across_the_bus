@@ -1,0 +1,54 @@
+# Replace this with your real domain before deploying.
+baseURL = "http://localhost:1313/"
+languageCode = "en-us"
+title = "Across the Bus"
+theme = "terminal"
+pagination.pagerSize = 6
+
+[markup.highlight]
+noClasses = false
+
+[markup.tableOfContents]
+endLevel = 3
+ordered = false
+startLevel = 2
+
+[markup.goldmark.extensions.passthrough]
+enable = true
+
+[markup.goldmark.extensions.passthrough.delimiters]
+block = [['\[', '\]'], ['$$', '$$']]
+inline = [['\(', '\)']]
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[params]
+description = "A personal engineering blog with project notes, experiments, and write-ups."
+author = "Ronnie Adoma"
+heroName = "Ronnie Adoma"
+heroSubtitle = "Building systems, writing notes, and shipping small experiments."
+heroIntro = "A small corner of the internet for projects, experiments, and in-progress technical rabbit holes."
+emailUrl = "#"
+githubUrl = "https://github.com/R-Adoma"
+contentTypeName = "posts"
+showMenuItems = 2
+fullWidthTheme = true
+centerTheme = false
+autoCover = true
+showLastUpdated = false
+subtitle = "Projects, thoughts, and notes from the workbench."
+keywords = "ronnie adoma, engineering blog, hardware, software"
+menuMore = "Show more"
+readMore = "Read more"
+readOtherPosts = "Read other posts"
+newerPosts = "Newer posts"
+olderPosts = "Older posts"
+missingContentMessage = "Page not found..."
+missingBackButtonLabel = "Back to home page"
+minuteReadingTime = "min read"
+words = "words"
+
+[params.logo]
+logoText = "Across the Bus"
+logoHomeLink = "/"
