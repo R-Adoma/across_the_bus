@@ -1,6 +1,6 @@
 +++
 title = "Side Channels"
-date = 2026-04-12T09:00:00+01:00
+date = 2026-04-21T09:00:00+01:00
 description = "Exploring correlation power analysis and masking countermeasures on an AES-128 RTL implementation"
 cover = "/img/projects/sidechannel/sidechannelmain.png"
 coverAlt = "Side-channel attack visual"
