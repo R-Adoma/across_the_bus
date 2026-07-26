@@ -1,4 +1,4 @@
-<article class="content-card">
+<article class="content-card{{ with .Params.cardClass }} {{ . }}{{ end }}">
   <a class="content-card__media" href="{{ .RelPermalink }}">
     {{ with .Params.cover }}
       <img src="{{ . | strings.TrimPrefix "/" | relURL }}" alt="{{ $.Params.coverAlt | default $.Title }}">

@@ -4,6 +4,8 @@ date = 2026-07-26T09:00:00+01:00
 description = "Implementing an Ethernet packet parser and risk pipeline"
 cover = "/img/projects/ethernet_parser/ethernet_cables.jpg"
 coverAlt = "Ethernet Cables"
+coverClass = "article-cover--half"
+cardClass = "content-card--small-media"
 displayWords = 3760
 tags = ["rtl", "fpga", "ethernet"]
 math = true
@@ -50,14 +52,12 @@ So my spec ended up being:
 
 ### System Diagram
 
-<figure>
-  <img src="../../img/projects/ethernet_parser/rx_flow.png" alt="Rx Flowchart">
-  <figcaption>Flowchart Showing RX subsystem</figcaption>
-</figure>
-
-<figure>
-  <img src="../../img/projects/sidechannel/accuracy_vs_traces.png" alt="Plot showing two CPA models versus trace count and accuracy">
-  <figcaption>First-order CPA accuracy against the unmasked AES implementation as the number of traces increases.</figcaption>
+<figure class="article-figure--medium">
+  <img
+    src="../../img/projects/ethernet_parser/rx_flow.png"
+    alt="Rx Flowchart"
+  >
+  <figcaption>Flowchart showing the RX subsystem</figcaption>
 </figure>
 
 ```text
@@ -360,9 +360,12 @@ Also, future events arriving continuously during recovery can fill the hold tabl
 
 ## Part 2: TX Risk Engine
 
-<figure>
-  <img src="../../img/projects/ethernet_parser/tx_flow.png" alt="Tx Flowchart">
-  <figcaption>Flowchart Showing TX subsystem</figcaption>
+<figure class="article-figure--medium">
+  <img
+    src="../../img/projects/ethernet_parser/tx_flow.png"
+    alt="Tx Flowchart"
+  >
+  <figcaption>Flowchart showing the TX subsystem</figcaption>
 </figure>
 
 ### Decision Controller
@@ -566,8 +569,11 @@ That is still above the representative one-event-per-packet input rate:
 This justifies the timing-closure approach: add pipeline stages, accept a few more cycles of latency, and keep the initiation/service rate comfortably above the traffic rate.
 
 ## Final System Diagram
-<figure>
-  <img src="../../img/projects/ethernet_parser/rx_to_tx_flow.png" alt="Tx Flowchart">
+<figure class="article-figure--medium">
+  <img
+    src="../../img/projects/ethernet_parser/rx_to_tx_flow.png"
+    alt="Full RX to TX system flowchart"
+  >
   <figcaption>Flowchart showing the full system</figcaption>
 </figure>
 
