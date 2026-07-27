@@ -26,7 +26,7 @@ When I decided to do this project I had a very rough idea of what I wanted to do
 
 ### Thoughts on Ethernet Parsing Implementation
 
-One of the main decisions I had to make was how faithfully or fully I would implement Ethernet parsing. Ethernet is a rather broad communication standard to implement in its totality. I'm going to discuss the horizontal and vertical complexities that a full implementation has. You could implement IPv4 and/or IPv6, UDP and/or TCP (and TCP is a beast in and of itself); these are the horizontal challenges. Vertically, it is the discussion of how low level the implementation should go. I was mainly weighing up implementing my own MAC or not. [brief explanation of MAC as well maybe its own section explaining what these concepts are] [Images of the communication standard]. The way I decided for myself what I was going to implement was by asking myself what I wanted to get out of this project, and what the design challenges were that I wanted to solve. This led me to using some external IP for the MAC and implementing an Ethernet/IPv4/UDP parser.
+One of the main decisions I had to make was how faithfully or fully I would implement Ethernet parsing. Ethernet is a rather broad communication standard to implement in its totality. I'm going to discuss the horizontal and vertical complexities that a full implementation has. You could implement IPv4 and/or IPv6, UDP and/or TCP (and TCP is a beast in and of itself); these are the horizontal challenges. Vertically, it is the discussion of how low level the implementation should go. I was mainly weighing up implementing my own MAC or not. [brief explanation of MAC as well maybe its own section explaining what these concepts are] [Images of the communication standard]. The way I decided for myself what I was going to implement was by asking myself what I wanted to get out of this project, and what the design challenges were that I wanted to solve. This led me to using the 1G RGMII MAC from Alex Forencich's [verilog-ethernet](https://github.com/alexforencich/verilog-ethernet) project for the MAC boundary, and implementing my own Ethernet/IPv4/UDP parser behind it.
 
 ### The Something Else: Risk Engine
 
@@ -471,6 +471,35 @@ Safety behaviour:
 - `cache_freeze`
   - block mutation, return `resp_blocked`
 
+  ## Testing
+
+  Testing for this project was mainly split between unit tests for individual RTL modules and integration tests for the wider SmartNIC
+  pipeline. The unit tests checked blocks such as the Ethernet/IP/UDP parsing stages, MoldUDP64/ITCH parsing, the order-ID cache,
+  recovery tracking, and the decision controller in isolation. The integration tests then exercised larger flows through
+  `smartnic_core`, checking that parsed RX events could move through the decision logic and produce the expected outputs.
+
+  This was also my first time using cocotb properly. I enjoyed it more than I expected. Since Python is the language I am most
+  comfortable with, writing testbenches in Python felt fairly natural, and it made the tests easier to structure than if I had written
+  everything in SystemVerilog. Being able to describe packets, expected fields, and scoreboard-style checks in normal Python syntax
+  made the verification side feel a lot more intuitive.
+
+  The tests were especially useful during timing-closure work. Once I started adding pipeline stages and moving logic across cycles,
+  the cocotb tests gave me a quick way to check that I had not changed the behaviour while trying to make the design meet timing. They
+  did not solve the timing problem by themselves, but they made the optimisation process much less blind.
+
+## Bring Up
+
+<figure class="article-figure--medium">
+  <img
+    src="../../img/projects/ethernet_parser/wireshark.png"
+    alt="Full RX to TX system flowchart"
+  >
+  <figcaption>Img of wireshark output</figcaption>
+</figure>
+
+To evaluate if the hardware was actually working I utilised wireshark on my host PC and ILA's on the board and was able to make out the traffic coming from my board verifying that at I was at least getting something back. 
+
+
 ## Problems
 
 The main implementation issue for this project was timing closure. Most of the design at the architectural level was relatively straightforward and didn't stump me for too long, and through a bit of thought and effort I managed to arrive at a satisfactory implementation that passed my unit and integration tests. The RX path converted Ethernet market data into ordered events, the controller updated an order cache and symbol table, and the rule logic generated alerts or risk blocks. However, the first versions of several blocks were too optimistic about how much combinational work could fit into one FPGA clock cycle. This was especially visible in the decision subsystem, where cache lookup, tag comparison, share arithmetic, rule threshold checks, recovery state, and TX action selection all interacted with relatively wide structs and high-fanout control signals.
@@ -568,6 +597,29 @@ That is still above the representative one-event-per-packet input rate:
 
 This justifies the timing-closure approach: add pipeline stages, accept a few more cycles of latency, and keep the initiation/service rate comfortably above the traffic rate.
 
+  ## Latency
+
+  For the normal watched Add Order path, the rough headline latency is around 0.9 us from the first RX byte entering the FPGA pipeline
+  to the first byte of the generated TX action frame.
+
+   Measurement point                                       Estimate
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RX packet visible to FPGA               100 byte cycles = 800 ns
+  ──────────────────────────────────────  ──────────────────────────
+   Decision/risk processing                     ~14 cycles = 112 ns
+  ──────────────────────────────────────  ──────────────────────────
+   First TX action byte produced                            ~912 ns
+  ──────────────────────────────────────  ──────────────────────────
+   Full 60-byte TX action frame emitted              ~1.39 us total
+
+  At the wire level, including Ethernet preamble, FCS, and inter-frame gap, the same transaction is closer to 1.1 us to first TX byte
+  and roughly 1.8 us for the full response frame to leave.
+
+  These numbers are cycle-count estimates rather than timestamped hardware measurements, but they give a useful order of magnitude:
+  the design is operating in the low-microsecond range, not milliseconds. The more important result for this project was still
+  throughput, since the pipeline can accept line-rate 1 Gb/s traffic while the decision logic services events comfortably within the
+  packet arrival budget.
+
 ## Final System Diagram
 <figure class="article-figure--medium">
   <img
@@ -590,4 +642,4 @@ If I return to this project, I would want to extend the functionality while keep
 - Add more complex risk checks now that the timing and throughput margins are better understood.
 - Potentially scale the order-ID cache and symbol/rule tables beyond the current small watched-symbol prototype.
 
-Overall, the part I found most valuable was not just getting the parser to work, but learning how quickly a conceptually clean FPGA design can become difficult once timing closure, fanout, and routed paths become the real constraints.
+Overall, the part I found most valuable was not just getting the parser to work, but also going through the weeds to actually get functional hardware by addressing issues in timing closure, .xdc files and other bring up hiccups.
